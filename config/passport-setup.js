@@ -25,7 +25,8 @@ export default passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/redirect",
+      callbackURL: `${process.env.APP_URL}/auth/google/redirect`,
+      passReqToCallback: true,
     },
     (accessToken, refreshToken, profile, done) => {
       // find current user in UserModel
@@ -35,7 +36,7 @@ export default passport.use(
         .then((currentUser) => {
           if (currentUser) {
             console.log("current user", currentUser);
-            done(null, currentUser);
+            return done(null, currentUser);
           } else {
             new User({
               name: profile.displayName,
@@ -45,7 +46,7 @@ export default passport.use(
               .save()
               .then((newUser) => {
                 console.log("new user created", newUser);
-                done(null, newUser);
+                return done(null, newUser);
               })
               .catch((err) => console.log(err, "erro"));
           }
