@@ -18,7 +18,7 @@ const Keys = config();
 
 // APP CONFIG
 const app = express();
-const port = process.env.PORT || 9000;
+const port = Keys.parsed.PORT || 9000;
 
 // DB CONFIG
 const connection_url = Keys.parsed.DB_URL;
