@@ -6,21 +6,17 @@ import passport from "passport";
 import googlePassport from "./config/passport-setup.js";
 import cookieSession from "cookie-session";
 import cookieParser from "cookie-parser";
-import pkg from "dotenv";
 
 // IMPORT ROUTES
 import authRoutes from "./routes/auth-routes.js";
 import profileRoutes from "./routes/profile-routes.js";
 
-// KEYS
-const { config } = pkg;
-const Keys = config();
-
 // APP CONFIG
 const app = express();
+const port = process.env.PORT || 9000;
 
 // DB CONFIG
-const connection_url = Keys.parsed.DB_URL;
+const connection_url = process.env.DB_URL;
 mongoose
   .connect(connection_url, {
     useCreateIndex: true,
@@ -34,7 +30,7 @@ mongoose
 app.use(
   cookieSession({
     name: "session",
-    keys: [Keys.parsed.SESSION_COOKIE],
+    keys: [process.env.SESSION_COOKIE],
     maxAge: 24 * 60 * 60 * 100,
   })
 );
@@ -61,6 +57,4 @@ app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
 
 // LISTENER
-app.listen(process.env.PORT || 9000, () =>
-  console.log(`Listening on localhost on port ${port}`)
-);
+app.listen(port, () => console.log(`Listening on localhost on port ${port}`));

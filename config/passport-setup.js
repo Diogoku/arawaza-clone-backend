@@ -1,11 +1,6 @@
 import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
 import User from "../models/user.js";
-import pkg from "dotenv";
-
-// KEYS
-const { config } = pkg;
-const Keys = config();
 
 // SERIALIZE USER
 // serialize the user.id to save in the cookie session
