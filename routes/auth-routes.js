@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 import googlePassport from "../config/passport-setup.js";
 
-const CLIENT_HOME_PAGE_URL = process.env.APP_FRONTEND_URL + "fdx";
+const CLIENT_HOME_PAGE_URL = process.env.APP_FRONTEND_URL;
 
 const router = express.Router();
 
@@ -46,7 +46,7 @@ router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 router.get(
   "/google/redirect",
   passport.authenticate("google", {
-    successRedirect: CLIENT_HOME_PAGE_URL,
+    successRedirect: CLIENT_HOME_PAGE_URL + "fdx",
     failureRedirect: CLIENT_HOME_PAGE_URL,
   })
 );
