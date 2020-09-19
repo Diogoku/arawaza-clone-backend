@@ -36,6 +36,7 @@ export default passport.use(
           if (currentUser) {
             console.log("current user", currentUser);
             done(null, currentUser);
+            console.log("after current user");
           } else {
             new User({
               name: profile.displayName,
