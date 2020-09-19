@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 import googlePassport from "../config/passport-setup.js";
 
-const CLIENT_HOME_PAGE_URL = process.env.APP_FRONTEND_URL;
+const CLIENT_HOME_PAGE_URL = process.env.APP_FRONTEND_URL + "fdx";
 
 const router = express.Router();
 
