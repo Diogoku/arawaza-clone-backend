@@ -1,6 +1,10 @@
 import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
 import User from "../models/user.js";
+import pkg from "dotenv";
+
+const { config } = pkg;
+config();
 
 // SERIALIZE USER
 // serialize the user.id to save in the cookie session
@@ -13,6 +17,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   User.findById(id)
     .then((user) => {
+      console.log("deserialize User", user);
       done(null, user);
     })
     .catch((e) => {
@@ -20,23 +25,23 @@ passport.deserializeUser((id, done) => {
     });
 });
 
+//console.log(process.env);
 export default passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: `${process.env.APP_URL}/auth/google/redirect`,
-      passReqToCallback: true,
     },
     (accessToken, refreshToken, profile, done) => {
       // find current user in UserModel
-      const currentUser = User.findOne({
+      User.findOne({
         googleId: profile.id,
       })
         .then((currentUser) => {
           if (currentUser) {
-            console.log("current user", currentUser);
-            return done(null, currentUser);
+            //console.log("current user", currentUser);
+            done(null, currentUser);
           } else {
             new User({
               name: profile.displayName,
@@ -46,7 +51,7 @@ export default passport.use(
               .save()
               .then((newUser) => {
                 console.log("new user created", newUser);
-                return done(null, newUser);
+                done(null, newUser);
               })
               .catch((err) => console.log(err, "erro"));
           }

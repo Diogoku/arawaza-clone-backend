@@ -6,6 +6,7 @@ import passport from "passport";
 import googlePassport from "./config/passport-setup.js";
 import cookieSession from "cookie-session";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 
 // IMPORT ROUTES
 import authRoutes from "./routes/auth-routes.js";

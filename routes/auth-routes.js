@@ -1,6 +1,7 @@
 import express from "express";
 import passport from "passport";
 import googlePassport from "../config/passport-setup.js";
+import user from "../models/user.js";
 
 const CLIENT_HOME_PAGE_URL = process.env.APP_FRONTEND_URL;
 
@@ -8,7 +9,6 @@ const router = express.Router();
 
 // when login is successful, retrieve user info
 router.get("/login/success", (req, res) => {
-  console.log(req.user);
   if (req.user) {
     res.json({
       success: true,
@@ -49,7 +49,10 @@ router.get(
   passport.authenticate("google", {
     successRedirect: CLIENT_HOME_PAGE_URL,
     failureRedirect: CLIENT_HOME_PAGE_URL,
-  })
+  }),
+  (req, res) => {
+    res.send(req.user);
+  }
 );
 
 export default router;
