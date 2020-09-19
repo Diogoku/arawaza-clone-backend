@@ -8,7 +8,7 @@ const router = express.Router();
 
 // when login is successful, retrieve user info
 router.get("/login/success", (req, res) => {
-  console.log(req);
+  console.log(req.user);
   if (req.user) {
     res.json({
       success: true,
