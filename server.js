@@ -18,7 +18,6 @@ const Keys = config();
 
 // APP CONFIG
 const app = express();
-const port = process.env.PORT || 9000;
 
 // DB CONFIG
 const connection_url = Keys.parsed.DB_URL;
@@ -62,4 +61,6 @@ app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
 
 // LISTENER
-app.listen(port, () => console.log(`Listening on localhost on port ${port}`));
+app.listen(process.env.PORT || 9000, () =>
+  console.log(`Listening on localhost on port ${port}`)
+);
