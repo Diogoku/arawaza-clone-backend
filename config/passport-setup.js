@@ -28,8 +28,8 @@ passport.deserializeUser((id, done) => {
 export default passport.use(
   new GoogleStrategy(
     {
-      clientID: Keys.parsed.GOOGLE_CLIENT_ID,
-      clientSecret: Keys.parsed.GOOGLE_CLIENT_SECRET,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/redirect",
     },
     (accessToken, refreshToken, profile, done) => {
