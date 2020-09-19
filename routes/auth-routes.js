@@ -46,7 +46,7 @@ router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 router.get(
   "/google/redirect",
   passport.authenticate("google", {
-    successRedirect: CLIENT_HOME_PAGE_URL + "fdx",
+    successRedirect: CLIENT_HOME_PAGE_URL + "ola",
     failureRedirect: CLIENT_HOME_PAGE_URL,
   })
 );
