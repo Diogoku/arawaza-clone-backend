@@ -1,16 +1,20 @@
 // IMPORTING
 import express from "express";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
 import cors from "cors";
-import passport from "passport";
-import googlePassport from "./config/passport-setup.js";
 import cookieSession from "cookie-session";
 import cookieParser from "cookie-parser";
-import session from "express-session";
+import pkg from "dotenv";
+
+// KEYS
+const { config } = pkg;
+config();
 
 // IMPORT ROUTES
 import authRoutes from "./routes/auth-routes.js";
 import profileRoutes from "./routes/profile-routes.js";
+import productsRoutes from "./routes/product-routes.js";
 
 // APP CONFIG
 const app = express();
@@ -23,6 +27,7 @@ mongoose
     useCreateIndex: true,
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    useFindAndModify: false,
   })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
@@ -36,13 +41,11 @@ app.use(
   })
 );
 
+// BODY PARSER
+app.use(bodyParser.json());
+
 // PARSE COOKIES
 app.use(cookieParser());
-
-// INITALIZE PASSPORT
-app.use(passport.initialize());
-// DESERIALIZE COOKIE FROM THE BROWSER
-app.use(passport.session());
 
 // SET UP CORS TO ALLOW US TO ACCEPT REQUESTS FROM OUR CLIENT
 app.use(
@@ -56,6 +59,7 @@ app.use(
 // SET UP AUTH ROUTES
 app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
+app.use("/product", productsRoutes);
 
 // LISTENER
 app.listen(port, () => console.log(`Listening on localhost on port ${port}`));
